@@ -39,7 +39,7 @@
    reference to atom system and a co-dependency component key."
   [c ^Atom system]
   (reduce (fn [c [k-i k-e]]
-            (assoc c k-i (CoDep. system k-e)))
+            (assoc c (keyword (str "*" (name k-i))) (CoDep. system k-e)))
           c (co-dependencies c)))
 
 (defn- assoc-co-deps-and-start
