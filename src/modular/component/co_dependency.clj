@@ -1,6 +1,6 @@
-(ns tangrammer.component.co-dependency
-  (:require [com.stuartsierra.component :as component]
-            [tangrammer.component.utils :as utils])
+;; Copyright © 2014 Juan Antonio Ruz (juxt.pro)
+(ns modular.component.co-dependency
+  (:require [com.stuartsierra.component :as component])
   (:import [com.stuartsierra.component SystemMap]
            [clojure.lang Atom]))
 
@@ -8,6 +8,18 @@
   clojure.lang.IDeref
   (deref [_]
     (get @system k)))
+
+(defn- clear
+  "Get the component without dependency values associated"
+  [c]
+  (reduce (fn [c [k _]] (assoc c k nil)) c (component/dependencies c)))
+
+(defn get-component-key
+  "Get the component key identifier in system"
+  [co ^SystemMap system]
+  (-> (reduce (fn [c k] (assoc c k (clear (get c k)))) system (keys system))
+      clojure.set/map-invert
+      (get (clear co))))
 
 (defmethod clojure.core/print-method CoDep
   [co-dep ^java.io.Writer writer]
@@ -49,7 +61,7 @@
   (let [started-component (-> c
                               (assoc-co-dependencies system)
                               component/start)]
-    (swap! system assoc (utils/get-component-key c @system) started-component)
+    (swap! system assoc (get-component-key c @system) started-component)
     started-component))
 
 (defn system-co-using

@@ -1,18 +1,10 @@
-# stuartsierra/component co-dependency facility
-Based in original co-dependency idea of [Malcolm Sparks](https://github.com/juxt/component) to achieve co-dependency relation in
-[stuartsierra/component](https://github.com/stuartsierra/component) library.
-
-This co-dependency proposal is designed on the idea that a component doesn't need co-dependencies to start as it do with normal dependencies but after system is started. 
+# juxt.modular/co-dependency
 
 ## Releases and Dependency Information
 
-
 ```clojure
-
-[tangrammer/co-dependency "0.1.3"]
-
+[juxt.modular/co-dependency "0.2.0"]
 ```
-
 
 ## Usage
 
@@ -22,10 +14,10 @@ This co-dependency proposal is designed on the idea that a component doesn't nee
 
 (defproject your-project "your-version"
    ...
-   :dependencies [[tangrammer/co-dependency "0.1.3"]]        
+   :dependencies [[tangrammer/co-dependency "0.1.3"]]
    ...
    )
-   
+
 ```
 
 
@@ -36,11 +28,11 @@ This co-dependency proposal is designed on the idea that a component doesn't nee
 (ns your-app-ns
   (:require [com.stuartsierra.component :as component]
             [tangrammer.component.co-dependency :as co-dependency]))
-            
+
 
 ```
 
-#### Define your system 
+#### Define your system
 
 [Same as you do](https://github.com/stuartsierra/component/blob/master/test/com/stuartsierra/component_test.clj#L114-L121) with stuartsierra/component lib but adding co-dependencies with co-dependency/co-using fn
 **In this case :b depends on :a and :a co-depends on :b**
@@ -88,21 +80,19 @@ Follow the test provided to learn how to use it :)
 
 
 ## Drawbacks
-In contrast with normal dependencies that you get using clojure map functions 
+In contrast with normal dependencies that you get using clojure map functions
 
 ```clojure
-(:dependency-key component) 
+(:dependency-key component)
 ;;=> dependency
 ```
 
-when you want to retrieve a co-dependency you need to deref the co-dependency value 
+when you want to retrieve a co-dependency you need to deref the co-dependency value
 
-```clojure  
-@(:co-dependency-key component)    
+```clojure
+@(:co-dependency-key component)
 ;;=> co-dependency
 ```
-
-
 
 ## License
 
