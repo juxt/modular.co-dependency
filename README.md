@@ -14,7 +14,7 @@
 
 (defproject your-project "your-version"
    ...
-   :dependencies [[tangrammer/co-dependency "0.1.3"]]
+   :dependencies [[juxt.modular/co-dependency "0.2.0"]]
    ...
    )
 
@@ -26,8 +26,8 @@
 ```clojure
 
 (ns your-app-ns
-  (:require [com.stuartsierra.component :as component]
-            [tangrammer.component.co-dependency :as co-dependency]))
+  (:require [com.stuartsierra.component :refer (using)]
+            [modular.component.co-dependency :refer (co-using)]))
 
 
 ```
@@ -38,16 +38,15 @@
 **In this case :b depends on :a and :a co-depends on :b**
 
 ```clojure
-
 (defn system-1 []
   (map->System1 {:a (-> (component-a)
-                        (co-dependency/co-using [:b]))
+                        (co-using [:b]))
                  :b (-> (component-b)
-                        (component/using [:a]))
+                        (using [:a]))
                  :c (-> (component-c)
-                        (component/using [:a :b]))
+                        (using [:a :b]))
                  :d (-> (component-d)
-                        (component/using {:b :b :c :c}))
+                        (using {:b :b :c :c}))
                  :e (component-e)})
 
 ```
