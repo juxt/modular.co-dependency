@@ -93,6 +93,24 @@ when you want to retrieve a co-dependency you need to deref the co-dependency va
 ;;=> co-dependency
 ```
 
+### Co-dependencies are NOT bound during a component's start phase.
+
+Co-dependencies are bound _after_ a component's start phase. Therefore,
+a component's co-dependencies will not be accessible, even via a
+dereference of the co-dependency, during a component's start.
+
+Re-read that last paragraph until you understand that you _cannot_ make
+use of a co-dependency's data until after the `start` phase of a given
+component. You _can_ make use of a co-dependency's data _after_ the
+component has been fully started, which usually means in a function
+(such as a Ring handler).
+
+The penalty for not understanding this point is days spent figuring out
+why you can't see a co-dependency's data. It's because you're still
+trying to access this data within the `start` phase of your
+component. Don't do this. Defer the lookup until after the entire start
+phase of your system has completed.
+
 ## License
 
 Copyright © 2014 Juan Antonio Ruz (juxt.pro)
