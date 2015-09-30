@@ -1,4 +1,4 @@
-(defproject juxt.modular/co-dependency "0.2.1"
+(defproject juxt.modular/co-dependency "0.2.2"
   :description "Co-dependency support for com.stuartsierra.component"
   :url "https://github.com/juxt/modular.co-dependency"
   :license {:name "Eclipse Public License"
